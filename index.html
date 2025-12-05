@@ -3,13 +3,43 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Form Test</title>
+    <title>Contact Form</title>
 </head>
 <body>
-    <form action="https://formsubmit.co/acejokergold@gmail.com" method="POST">
-  <input type="text" name="name" value="TestName">
-  <button type="submit">Send Test</button>
-</form>
+
+    <form id="contactForm">
+        <input type="text" id="name" placeholder="Name" required>
+        <input type="email" id="email" placeholder="Email" required>
+        <textarea id="message" placeholder="Message" required></textarea>
+        <button type="submit">Send</button>
+    </form>
+
+    <!-- EmailJS Library -->
+    <script src="https://cdn.emailjs.com/sdk/3.2.0/email.min.js"></script>
+
+    <script>
+        // 1. Initialize EmailJS
+        (function() {
+            emailjs.init("YOUR_PUBLIC_KEY");   // Replace with your EmailJS Public Key
+        })();
+
+        // 2. Handle form submit
+        document.getElementById("contactForm").addEventListener("submit", function(e) {
+            e.preventDefault();
+
+            emailjs.send("YOUR_SERVICE_ID", "YOUR_TEMPLATE_ID", {
+                from_name: document.getElementById("name").value,
+                reply_to: document.getElementById("email").value,
+                message: document.getElementById("message").value
+            })
+            .then(function() {
+                alert("Message sent successfully!");
+            }, function(error) {
+                console.log(error);
+                alert("Failed to send message.");
+            });
+        });
+    </script>
 
 </body>
 </html>
